@@ -1,4 +1,4 @@
-# app.py
+
 from streamlit_option_menu import option_menu
 import streamlit as st
 import pandas as pd
@@ -21,18 +21,18 @@ def run_query(query, params=()):
 # === Title ===
 st.set_page_config(page_title="Local Food Wastage Management System", layout="wide")
 st.title(" Local Food Wastage Management System")
-
+st.write("Created By Tanuj Jain")
 menu=option_menu(
     menu_title=None,  # No title
     options=["Dashboard", "Add Food Listing", "Update Listing", "Delete Listing", "SQL Insights"],
-    icons=["speedometer", "plus-circle", "pencil", "trash", "bar-chart"],  # optional icons
+    icons=["speedometer", "plus-circle", "pencil", "trash", "bar-chart"],  #icons
     menu_icon="cast",
     default_index=0,
     orientation="horizontal"
 )
 # === 1. Dashboard ===
 if menu == "Dashboard":
-    st.subheader("📊 Food Listings Overview")
+    st.subheader("Food Listings Overview")
     query = "SELECT * FROM food_listings"
     df = run_query(query)
 
@@ -44,7 +44,7 @@ if menu == "Dashboard":
 
 # === 2. Add Food Listing ===
 elif menu == "Add Food Listing":
-    st.subheader("➕ Add New Food Listing")
+    st.subheader(" Add New Food Listing")
     with st.form("add_food"):
         food_name = st.text_input("Food Name")
         quantity = st.number_input("Quantity", min_value=1)
@@ -64,11 +64,11 @@ elif menu == "Add Food Listing":
         """, (food_name, quantity, expiry, provider_id, provider_type, location, food_type, meal_type))
         conn.commit()
         conn.close()
-        st.success("✅ Food listing added successfully!")
+        st.success(" Food listing added successfully!")
 
 # === 3. Update Listing ===
 elif menu == "Update Listing":
-    st.subheader("✏️ Update Food Listing")
+    st.subheader(" Update Food Listing")
     listings = run_query("SELECT Food_ID, Food_Name FROM food_listings")
     listing_id = st.selectbox("Select Food ID", listings["Food_ID"])
 
@@ -79,11 +79,11 @@ elif menu == "Update Listing":
             conn.execute("UPDATE food_listings SET Quantity = ? WHERE Food_ID = ?", (new_qty, listing_id))
             conn.commit()
             conn.close()
-            st.success("✅ Quantity updated successfully!")
+            st.success(" Quantity updated successfully!")
 
 # === 4. Delete Listing ===
 elif menu == "Delete Listing":
-    st.subheader("🗑️ Delete Food Listing")
+    st.subheader(" Delete Food Listing")
     listings = run_query("SELECT Food_ID, Food_Name FROM food_listings")
     listing_id = st.selectbox("Select Food ID to Delete", listings["Food_ID"])
 
@@ -92,7 +92,7 @@ elif menu == "Delete Listing":
         conn.execute("DELETE FROM food_listings WHERE Food_ID = ?", (listing_id,))
         conn.commit()
         conn.close()
-        st.success("✅ Listing deleted successfully!")
+        st.success("Listing deleted successfully!")
 
 # === 5. SQL Insights ===
 elif menu == "SQL Insights":
@@ -125,7 +125,7 @@ elif menu == "SQL Insights":
             SELECT Name, Type, Contact
             FROM providers
             WHERE City = 'Mumbai'
-            """,  # You can make city dynamic with st.selectbox
+            """,  
 
         # 4
         "4️ Receivers with Most Claims":
